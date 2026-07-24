@@ -1,0 +1,214 @@
+/**
+ * table.css - 表格组件样式
+ * 职责：定义表格容器、表头、单元格、斑马纹行等样式
+ */
+
+/* 表格容器 */
+.table-container {
+    width: 100%;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    overflow: hidden;
+}
+
+/* 表格 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 表头 */
+.table-thead {
+    background-color: var(--bg-hover);
+}
+
+.table-th {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+/* 表体 */
+.table-tbody {
+    background-color: var(--bg-card);
+}
+
+/* 表格行 */
+.table-tr {
+    transition: background-color var(--transition-fast);
+}
+
+.table-tr:hover {
+    background-color: var(--bg-hover);
+}
+
+/* 斑马纹行 */
+.table-striped .table-tr:nth-child(even) {
+    background-color: var(--border-light);
+}
+
+.table-striped .table-tr:nth-child(even):hover {
+    background-color: var(--bg-hover);
+}
+
+/* 表格单元格 */
+.table-td {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+/* 最后一行无边框 */
+.table-tr:last-child .table-td {
+    border-bottom: none;
+}
+
+/* 文本对齐 */
+.table-td.text-left,
+.table-th.text-left {
+    text-align: left;
+}
+
+.table-td.text-center,
+.table-th.text-center {
+    text-align: center;
+}
+
+.table-td.text-right,
+.table-th.text-right {
+    text-align: right;
+}
+
+/* 操作列 */
+.table-td-actions {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.table-td-actions .btn {
+    margin: 0 var(--spacing-xs);
+}
+
+/* 空状态 */
+.table-empty {
+    padding: var(--spacing-3xl);
+    text-align: center;
+}
+
+.table-empty-icon {
+    font-size: 48px;
+    color: var(--text-tertiary);
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.table-empty-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+}
+
+/* 表格加载状态 */
+.table-loading {
+    position: relative;
+    min-height: 200px;
+}
+
+.table-loading::after {
+    content: '加载中...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+}
+
+/* 固定列表头 */
+.table-fixed-header {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.table-fixed-header .table-thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* 响应式表格 */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive .table {
+    min-width: 600px;
+}
+
+/* 表格卡片 */
+.table-card {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    overflow: hidden;
+}
+
+.table-card-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-card-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.table-card-body {
+    padding: 0;
+}
+
+.table-card-footer {
+    padding: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 可选中行 */
+.table-tr-selectable {
+    cursor: pointer;
+}
+
+.table-tr-selected {
+    background-color: rgba(22, 93, 255, 0.05) !important;
+}
+
+.table-tr-selected:hover {
+    background-color: rgba(22, 93, 255, 0.08) !important;
+}
+
+/* 表格紧凑模式 */
+.table-compact .table-th,
+.table-compact .table-td {
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+/* 表格宽松模式 */
+.table-loose .table-th,
+.table-loose .table-td {
+    padding: var(--spacing-lg) var(--spacing-xl);
+}

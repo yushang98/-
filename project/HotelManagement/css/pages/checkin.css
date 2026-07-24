@@ -1,0 +1,84 @@
+/**
+ * checkin.css - 快速入住页面专属样式
+ * 职责：定义快速入住页面的样式
+ */
+
+/* 入住表单区域 */
+.checkin-form {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+}
+
+.checkin-form-header {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.checkin-form-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 入住表单内容 */
+.checkin-form-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+}
+
+.checkin-form-full {
+    grid-column: 1 / -1;
+}
+
+/* 客人信息录入方式 */
+.checkin-guest-mode {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.checkin-guest-mode-item {
+    flex: 1;
+    padding: var(--spacing-md);
+    background-color: var(--bg-hover);
+    border: 2px solid transparent;
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.checkin-guest-mode-item:hover {
+    background-color: #E8F3FF;
+}
+
+.checkin-guest-mode-item.active {
+    background-color: #E8F3FF;
+    border-color: var(--primary-color);
+}
+
+.checkin-guest-mode-icon {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-sm);
+}
+
+.checkin-guest-mode-text {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .checkin-form-body {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkin-guest-mode {
+        flex-direction: column;
+    }
+}

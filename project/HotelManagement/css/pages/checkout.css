@@ -1,0 +1,149 @@
+/**
+ * checkout.css - 快速退房页面专属样式
+ * 职责：定义快速退房页面的样式
+ */
+
+/* 退房表单区域 */
+.checkout-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+/* 退房信息区域 */
+.checkout-info {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+}
+
+.checkout-info-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.checkout-info-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 额外消费区域 */
+.checkout-extras {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+}
+
+.checkout-extras-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.checkout-extras-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 快捷消费选项 */
+.checkout-quick-extras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+.checkout-quick-extra-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: var(--font-size-sm);
+}
+
+.checkout-quick-extra-item:hover {
+    background-color: #E8F3FF;
+    border-color: var(--primary-color);
+}
+
+.checkout-quick-extra-item.selected {
+    background-color: #E8F3FF;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* 账单预览区域 */
+.checkout-bill {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+}
+
+.checkout-bill-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.checkout-bill-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 账单明细 */
+.checkout-bill-detail {
+    margin-bottom: var(--spacing-lg);
+}
+
+.checkout-bill-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    font-size: var(--font-size-sm);
+}
+
+.checkout-bill-label {
+    color: var(--text-secondary);
+}
+
+.checkout-bill-value {
+    color: var(--text-primary);
+    font-weight: var(--font-medium);
+}
+
+.checkout-bill-total {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-md) 0;
+    border-top: 2px solid var(--border-color);
+    margin-top: var(--spacing-md);
+}
+
+.checkout-bill-total-label {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.checkout-bill-total-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-bold);
+    color: var(--error-color);
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+    .checkout-form {
+        grid-template-columns: 1fr;
+    }
+}

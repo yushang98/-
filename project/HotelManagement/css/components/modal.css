@@ -1,0 +1,249 @@
+/**
+ * modal.css - 模态框组件样式
+ * 职责：定义模态框遮罩、弹窗容器、头部、内容、底部等样式
+ */
+
+/* 遮罩层 */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: var(--z-modal-backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 模态框容器 */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* 模态框尺寸 */
+.modal-sm {
+    width: 400px;
+}
+
+.modal-md {
+    width: 600px;
+}
+
+.modal-lg {
+    width: 800px;
+}
+
+.modal-xl {
+    width: 1000px;
+}
+
+.modal-full {
+    width: 95vw;
+    height: 95vh;
+}
+
+/* 模态框头部 */
+.modal-header {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border-radius: var(--radius-base);
+    transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* 模态框内容 */
+.modal-body {
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-body-no-padding {
+    padding: 0;
+}
+
+/* 模态框底部 */
+.modal-footer {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
+}
+
+/* 确认弹窗 */
+.confirm-modal {
+    width: 400px;
+}
+
+.confirm-modal .modal-body {
+    text-align: center;
+    padding: var(--spacing-2xl);
+}
+
+.confirm-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    font-size: 24px;
+}
+
+.confirm-icon-warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-color);
+}
+
+.confirm-icon-error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+}
+
+.confirm-icon-info {
+    background-color: #E8F3FF;
+    color: var(--primary-color);
+}
+
+.confirm-icon-success {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+}
+
+.confirm-message {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    line-height: var(--line-height-relaxed);
+}
+
+/* 表单弹窗 */
+.form-modal .modal-body {
+    padding: var(--spacing-xl);
+}
+
+/* 详情弹窗 */
+.detail-modal .modal-body {
+    padding: var(--spacing-xl);
+}
+
+/* 弹窗动画 */
+@keyframes modal-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modal-slide-up {
+    from {
+        transform: translate(-50%, -40%);
+    }
+    to {
+        transform: translate(-50%, -50%);
+    }
+}
+
+.modal-animated {
+    animation: modal-fade-in var(--transition-base), modal-slide-up var(--transition-base);
+}
+
+/* 抽屉式弹窗 */
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 400px;
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-modal);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer.show {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.drawer-body {
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+    flex: 1;
+}
+
+.drawer-footer {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+}

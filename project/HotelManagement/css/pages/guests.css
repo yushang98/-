@@ -1,0 +1,71 @@
+/**
+ * guests.css - 客人管理页面专属样式
+ * 职责：定义客人管理页面的样式
+ */
+
+/* 搜索区域 */
+.guests-search {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.guests-search-row {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+}
+
+.guests-search-input {
+    flex: 1;
+}
+
+/* 客人列表区域 */
+.guests-list {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+}
+
+.guests-list-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.guests-list-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 客人历史记录 */
+.guest-history {
+    padding: var(--spacing-xl);
+}
+
+.guest-history-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.guest-history-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .guests-search-row {
+        flex-direction: column;
+    }
+    
+    .guests-search-input {
+        width: 100%;
+    }
+}

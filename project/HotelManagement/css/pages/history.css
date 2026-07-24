@@ -1,0 +1,60 @@
+/**
+ * history.css - 历史记录页面专属样式
+ * 职责：定义历史记录页面的样式
+ */
+
+/* 历史记录容器 */
+.history-container {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+}
+
+.history-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 历史记录内容 */
+.history-content {
+    padding: var(--spacing-lg);
+}
+
+/* 历史记录详情 */
+.history-detail {
+    padding: var(--spacing-xl);
+}
+
+.history-detail-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.history-detail-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.history-detail-row {
+    display: flex;
+    margin-bottom: var(--spacing-sm);
+}
+
+.history-detail-label {
+    width: 120px;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.history-detail-value {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}

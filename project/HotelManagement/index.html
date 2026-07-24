@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酒店住宿管理系统</title>
+    
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/base/common.css">
+    
+    <!-- 布局样式 -->
+    <link rel="stylesheet" href="css/layout/global.css">
+    
+    <!-- 组件样式 -->
+    <link rel="stylesheet" href="css/components/button.css">
+    <link rel="stylesheet" href="css/components/form.css">
+    <link rel="stylesheet" href="css/components/table.css">
+    <link rel="stylesheet" href="css/components/modal.css">
+    <link rel="stylesheet" href="css/components/badge.css">
+    <link rel="stylesheet" href="css/components/pagination.css">
+    
+    <!-- 页面样式 -->
+    <link rel="stylesheet" href="css/pages/dashboard.css">
+    <link rel="stylesheet" href="css/pages/rooms.css">
+    <link rel="stylesheet" href="css/pages/guests.css">
+    <link rel="stylesheet" href="css/pages/checkin.css">
+    <link rel="stylesheet" href="css/pages/checkout.css">
+    <link rel="stylesheet" href="css/pages/pricing.css">
+    <link rel="stylesheet" href="css/pages/settlement.css">
+    <link rel="stylesheet" href="css/pages/history.css">
+    <link rel="stylesheet" href="css/pages/settings.css">
+    
+    <style>
+        /* 动画样式 */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 应用容器 -->
+    <div class="app-container">
+        <!-- 头部导航栏 -->
+        <header class="header">
+            <div class="header-left">
+                <div class="header-logo">
+                    <div class="header-logo-icon">H</div>
+                    <h1 class="header-title">酒店住宿管理系统</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-time"></div>
+            </div>
+        </header>
+        
+        <!-- 主体区域 -->
+        <div class="main-wrapper">
+            <!-- 侧边栏导航 -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav"></nav>
+                <button class="sidebar-toggle">
+                    <span class="sidebar-toggle-icon">◀</span>
+                </button>
+            </aside>
+            
+            <!-- 主内容区 -->
+            <main class="main-content">
+                <!-- 数据看板页面 -->
+                <div id="page-dashboard" class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">数据看板</h2>
+                            <p class="page-subtitle">实时查看酒店运营数据</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-stats"></div>
+                    
+                    <div class="dashboard-today">
+                        <div class="dashboard-today-header">
+                            <h3 class="dashboard-today-title">今日在住客人</h3>
+                        </div>
+                        <div class="dashboard-today-table"></div>
+                    </div>
+                    
+                    <div class="dashboard-quick-actions">
+                        <div class="dashboard-quick-actions-header">
+                            <h3 class="dashboard-quick-actions-title">快捷操作</h3>
+                        </div>
+                        <div class="dashboard-quick-actions-grid">
+                            <div class="quick-action-item" onclick="HotelApp.ui.switchPage('checkin')">
+                                <div class="quick-action-icon">📥</div>
+                                <div class="quick-action-text">快速入住</div>
+                            </div>
+                            <div class="quick-action-item" onclick="HotelApp.ui.switchPage('checkout')">
+                                <div class="quick-action-icon">📤</div>
+                                <div class="quick-action-text">快速退房</div>
+                            </div>
+                            <div class="quick-action-item" onclick="HotelApp.ui.switchPage('rooms')">
+                                <div class="quick-action-icon">🏠</div>
+                                <div class="quick-action-text">房间管理</div>
+                            </div>
+                            <div class="quick-action-item" onclick="HotelApp.ui.switchPage('settlement')">
+                                <div class="quick-action-icon">🧾</div>
+                                <div class="quick-action-text">账单管理</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 房间管理页面 -->
+                <div id="page-rooms" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">房间管理</h2>
+                            <p class="page-subtitle">管理酒店房间信息与状态</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="showAddRoomModal()">+ 新增房间</button>
+                    </div>
+                    
+                    <div class="rooms-list">
+                        <div class="table-container">
+                            <table class="table table-striped">
+                                <thead class="table-thead">
+                                    <tr class="table-tr">
+                                        <th class="table-th">房间号</th>
+                                        <th class="table-th">楼层</th>
+                                        <th class="table-th">房型</th>
+                                        <th class="table-th">床位数</th>
+                                        <th class="table-th">基础房价</th>
+                                        <th class="table-th">状态</th>
+                                        <th class="table-th">备注</th>
+                                        <th class="table-th">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody rooms-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 客人管理页面 -->
+                <div id="page-guests" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">客人管理</h2>
+                            <p class="page-subtitle">管理客人档案信息</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="showAddGuestModal()">+ 新增客人</button>
+                    </div>
+                    
+                    <div class="guests-list">
+                        <div class="table-container">
+                            <table class="table table-striped">
+                                <thead class="table-thead">
+                                    <tr class="table-tr">
+                                        <th class="table-th">姓名</th>
+                                        <th class="table-th">身份证号</th>
+                                        <th class="table-th">联系电话</th>
+                                        <th class="table-th">备注</th>
+                                        <th class="table-th">创建时间</th>
+                                        <th class="table-th">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody guests-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 快速入住页面 -->
+                <div id="page-checkin" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">快速入住</h2>
+                            <p class="page-subtitle">办理客人入住登记</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkin-form">
+                        <form id="checkin-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">选择房间</label>
+                                    <select id="checkin-room" class="form-select" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">入住人数</label>
+                                    <input type="number" id="checkin-count" class="form-input" value="1" min="1" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">客人姓名</label>
+                                    <input type="text" id="checkin-name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">身份证号</label>
+                                    <input type="text" id="checkin-idcard" class="form-input">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">联系电话</label>
+                                    <input type="text" id="checkin-phone" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">押金金额</label>
+                                    <input type="number" id="checkin-deposit" class="form-input" value="0" min="0" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">入住日期</label>
+                                    <input type="date" id="checkin-date" class="form-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">退房日期</label>
+                                    <input type="date" id="checkout-date" class="form-date" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">备注</label>
+                                <textarea id="checkin-remark" class="form-textarea" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="HotelApp.ui.switchPage('dashboard')">取消</button>
+                                <button type="submit" class="btn btn-primary">确认入住</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 快速退房页面 -->
+                <div id="page-checkout" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">快速退房</h2>
+                            <p class="page-subtitle">办理客人退房结算</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-form">
+                        <div class="checkout-info">
+                            <h3 class="checkout-info-title">退房信息</h3>
+                            <form id="checkout-form">
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">选择房间</label>
+                                    <select id="checkout-room" class="form-select" required></select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">支付方式</label>
+                                    <select id="checkout-payment" class="form-select" required>
+                                        <option value="cash">现金</option>
+                                        <option value="wechat">微信</option>
+                                        <option value="alipay">支付宝</option>
+                                        <option value="card">银行卡</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">备注</label>
+                                    <textarea id="checkout-remark" class="form-textarea" rows="2"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="checkout-bill">
+                            <h3 class="checkout-bill-title">账单预览</h3>
+                            <div class="checkout-bill-detail" id="checkout-bill-detail">
+                                <div class="empty-state">
+                                    <div class="empty-state-text">请选择房间查看账单</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 价格管理页面 -->
+                <div id="page-pricing" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">价格管理</h2>
+                            <p class="page-subtitle">配置房价规则与优惠政策</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-section">
+                        <div class="pricing-section-header">
+                            <h3 class="pricing-section-title">基础房价</h3>
+                        </div>
+                        <div class="pricing-base-grid">
+                            <div class="form-group">
+                                <label class="form-label">单人间</label>
+                                <input type="number" id="price-single" class="form-input" value="288">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">双人间</label>
+                                <input type="number" id="price-double" class="form-input" value="388">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">豪华间</label>
+                                <input type="number" id="price-deluxe" class="form-input" value="588">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">套房</label>
+                                <input type="number" id="price-suite" class="form-input" value="888">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-section">
+                        <div class="pricing-section-header">
+                            <h3 class="pricing-section-title">周末价格系数</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">周末价格倍数</label>
+                            <input type="number" id="weekend-multiplier" class="form-input" value="1.2" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="savePriceRules()">保存配置</button>
+                    </div>
+                </div>
+                
+                <!-- 房费结算页面 -->
+                <div id="page-settlement" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">房费结算</h2>
+                            <p class="page-subtitle">查看结算记录与账单详情</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settlement-list">
+                        <div class="table-container">
+                            <table class="table table-striped">
+                                <thead class="table-thead">
+                                    <tr class="table-tr">
+                                        <th class="table-th">房间号</th>
+                                        <th class="table-th">客人姓名</th>
+                                        <th class="table-th">结算日期</th>
+                                        <th class="table-th">应收金额</th>
+                                        <th class="table-th">支付方式</th>
+                                        <th class="table-th">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody settlements-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 历史记录页面 -->
+                <div id="page-history" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">历史记录</h2>
+                            <p class="page-subtitle">查看入住与结算历史</p>
+                        </div>
+                    </div>
+                    
+                    <div class="history-container">
+                        <div class="tabs">
+                            <div class="tabs-header">
+                                <nav class="tabs-nav">
+                                    <div class="tabs-tab active" data-tab="orders">入住记录</div>
+                                    <div class="tabs-tab" data-tab="settlements">结算记录</div>
+                                </nav>
+                            </div>
+                            <div class="tabs-content">
+                                <div class="tabs-pane active" id="tab-orders">
+                                    <div class="table-container">
+                                        <table class="table table-striped">
+                                            <thead class="table-thead">
+                                                <tr class="table-tr">
+                                                    <th class="table-th">房间号</th>
+                                                    <th class="table-th">客人姓名</th>
+                                                    <th class="table-th">入住日期</th>
+                                                    <th class="table-th">退房日期</th>
+                                                    <th class="table-th">押金</th>
+                                                    <th class="table-th">操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-tbody history-orders-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tabs-pane" id="tab-settlements">
+                                    <div class="table-container">
+                                        <table class="table table-striped">
+                                            <thead class="table-thead">
+                                                <tr class="table-tr">
+                                                    <th class="table-th">房间号</th>
+                                                    <th class="table-th">客人姓名</th>
+                                                    <th class="table-th">结算日期</th>
+                                                    <th class="table-th">应收金额</th>
+                                                    <th class="table-th">支付方式</th>
+                                                    <th class="table-th">操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-tbody history-settlements-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 数据管理页面 -->
+                <div id="page-settings" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">数据管理</h2>
+                            <p class="page-subtitle">导入导出系统数据</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <h3 class="settings-section-title">数据导出</h3>
+                            <p class="settings-section-desc">将所有业务数据导出为JSON文件</p>
+                        </div>
+                        <div class="settings-action">
+                            <div class="settings-action-icon settings-action-icon-export">📤</div>
+                            <div class="settings-action-content">
+                                <div class="settings-action-title">导出数据</div>
+                                <div class="settings-action-desc">导出包含房间、客人、订单、结算、价格规则等所有数据</div>
+                            </div>
+                            <button class="btn btn-primary" onclick="exportData()">导出</button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <h3 class="settings-section-title">数据导入</h3>
+                            <p class="settings-section-desc">从JSON文件导入数据</p>
+                        </div>
+                        <div class="settings-action">
+                            <div class="settings-action-icon settings-action-icon-import">📥</div>
+                            <div class="settings-action-content">
+                                <div class="settings-action-title">导入数据</div>
+                                <div class="settings-action-desc">导入数据将覆盖现有数据，请谨慎操作</div>
+                            </div>
+                            <input type="file" id="import-file" class="settings-file-upload" accept=".json">
+                            <label for="import-file" class="btn btn-secondary">选择文件</label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <h3 class="settings-section-title">数据清空</h3>
+                            <p class="settings-section-desc">清空所有业务数据</p>
+                        </div>
+                        <div class="settings-action">
+                            <div class="settings-action-icon settings-action-icon-clear">🗑️</div>
+                            <div class="settings-action-content">
+                                <div class="settings-action-title">清空数据</div>
+                                <div class="settings-action-desc">清空所有房间、客人、订单、结算数据，此操作不可恢复</div>
+                            </div>
+                            <button class="btn btn-danger" onclick="clearAllData()">清空</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- 工具层JS -->
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/validator.js"></script>
+    <script src="js/utils/formatter.js"></script>
+    <script src="js/utils/calculator.js"></script>
+    
+    <!-- 业务模块层JS -->
+    <script src="js/modules/roomModule.js"></script>
+    <script src="js/modules/priceModule.js"></script>
+    <script src="js/modules/guestModule.js"></script>
+    <script src="js/modules/orderModule.js"></script>
+    <script src="js/modules/settlementModule.js"></script>
+    <script src="js/modules/dashboardModule.js"></script>
+    
+    <!-- 应用层JS -->
+    <script src="js/app.js"></script>
+    
+    <!-- 页面交互脚本 -->
+    <script>
+        // 新增房间弹窗
+        function showAddRoomModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-backdrop show';
+            modal.innerHTML = `
+                <div class="modal modal-md show">
+                    <div class="modal-header">
+                        <h3 class="modal-title">新增房间</h3>
+                        <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-room-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">房间号</label>
+                                    <input type="text" id="room-number" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">楼层</label>
+                                    <input type="number" id="room-floor" class="form-input" value="3" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">房型</label>
+                                    <select id="room-type" class="form-select" required>
+                                        <option value="single">单人间</option>
+                                        <option value="double">双人间</option>
+                                        <option value="deluxe">豪华间</option>
+                                        <option value="suite">套房</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">床位数</label>
+                                    <input type="number" id="room-beds" class="form-input" value="1" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label form-label-required">基础房价</label>
+                                <input type="number" id="room-price" class="form-input" value="288" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">备注</label>
+                                <textarea id="room-remark" class="form-textarea" rows="2"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="submitAddRoom()">确定</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function submitAddRoom() {
+            const room = {
+                roomNumber: document.getElementById('room-number').value,
+                floor: document.getElementById('room-floor').value,
+                roomType: document.getElementById('room-type').value,
+                beds: document.getElementById('room-beds').value,
+                basePrice: document.getElementById('room-price').value,
+                remark: document.getElementById('room-remark').value
+            };
+            
+            const result = HotelApp.room.add(room);
+            if (result.success) {
+                HotelApp.ui.showToast('添加成功', 'success');
+                document.querySelector('.modal-backdrop').remove();
+                HotelApp.ui.initRoomsPage();
+            } else {
+                HotelApp.ui.showToast(result.message, 'error');
+            }
+        }
+        
+        // 新增客人弹窗
+        function showAddGuestModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-backdrop show';
+            modal.innerHTML = `
+                <div class="modal modal-md show">
+                    <div class="modal-header">
+                        <h3 class="modal-title">新增客人</h3>
+                        <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-guest-form">
+                            <div class="form-group">
+                                <label class="form-label form-label-required">姓名</label>
+                                <input type="text" id="guest-name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">身份证号</label>
+                                <input type="text" id="guest-idcard" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">联系电话</label>
+                                <input type="text" id="guest-phone" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">备注</label>
+                                <textarea id="guest-remark" class="form-textarea" rows="2"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="submitAddGuest()">确定</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function submitAddGuest() {
+            const guest = {
+                name: document.getElementById('guest-name').value,
+                idCard: document.getElementById('guest-idcard').value,
+                phone: document.getElementById('guest-phone').value,
+                remark: document.getElementById('guest-remark').value
+            };
+            
+            const result = HotelApp.guest.add(guest);
+            if (result.success) {
+                HotelApp.ui.showToast('添加成功', 'success');
+                document.querySelector('.modal-backdrop').remove();
+                HotelApp.ui.initGuestsPage();
+            } else {
+                HotelApp.ui.showToast(result.message, 'error');
+            }
+        }
+        
+        // 保存价格规则
+        function savePriceRules() {
+            const rules = {
+                basePrices: {
+                    single: Number(document.getElementById('price-single').value),
+                    double: Number(document.getElementById('price-double').value),
+                    deluxe: Number(document.getElementById('price-deluxe').value),
+                    suite: Number(document.getElementById('price-suite').value)
+                },
+                weekendMultiplier: Number(document.getElementById('weekend-multiplier').value),
+                longStayDiscounts: HotelApp.price.getLongStayDiscountRules(),
+                specialPrices: HotelApp.price.getSpecialPrices()
+            };
+            
+            const result = HotelApp.price.saveRules(rules);
+            if (result.success) {
+                HotelApp.ui.showToast('保存成功', 'success');
+            } else {
+                HotelApp.ui.showToast(result.message, 'error');
+            }
+        }
+        
+        // 导出数据
+        function exportData() {
+            const data = {
+                rooms: HotelApp.storage.get('rooms') || [],
+                guests: HotelApp.storage.get('guests') || [],
+                orders: HotelApp.storage.get('orders') || [],
+                settlements: HotelApp.storage.get('settlements') || [],
+                priceRules: HotelApp.storage.get('priceRules') || {}
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `hotel_data_${HotelApp.formatter.formatDate(new Date())}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            HotelApp.ui.showToast('导出成功', 'success');
+        }
+        
+        // 导入数据
+        document.getElementById('import-file')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    
+                    HotelApp.ui.showConfirm('导入数据将覆盖现有数据，是否继续？', function() {
+                        HotelApp.storage.set('rooms', data.rooms || []);
+                        HotelApp.storage.set('guests', data.guests || []);
+                        HotelApp.storage.set('orders', data.orders || []);
+                        HotelApp.storage.set('settlements', data.settlements || []);
+                        HotelApp.storage.set('priceRules', data.priceRules || {});
+                        
+                        HotelApp.ui.showToast('导入成功', 'success');
+                        location.reload();
+                    });
+                } catch (error) {
+                    HotelApp.ui.showToast('文件格式错误', 'error');
+                }
+            };
+            reader.readAsText(file);
+        });
+        
+        // 清空数据
+        function clearAllData() {
+            HotelApp.ui.showConfirm('确定要清空所有数据吗？此操作不可恢复！', function() {
+                HotelApp.storage.clear();
+                HotelApp.storage.init();
+                HotelApp.ui.showToast('数据已清空', 'success');
+                location.reload();
+            });
+        }
+        
+        // 入住表单提交
+        document.getElementById('checkin-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const params = {
+                roomNumber: document.getElementById('checkin-room').value,
+                guestName: document.getElementById('checkin-name').value,
+                guestIdCard: document.getElementById('checkin-idcard').value,
+                guestPhone: document.getElementById('checkin-phone').value,
+                guestCount: document.getElementById('checkin-count').value,
+                deposit: document.getElementById('checkin-deposit').value,
+                checkInDate: document.getElementById('checkin-date').value,
+                checkOutDate: document.getElementById('checkout-date').value,
+                remark: document.getElementById('checkin-remark').value
+            };
+            
+            const result = HotelApp.order.checkIn(params);
+            if (result.success) {
+                HotelApp.ui.showToast('入住成功', 'success');
+                this.reset();
+                HotelApp.ui.initCheckinPage();
+            } else {
+                HotelApp.ui.showToast(result.message, 'error');
+            }
+        });
+        
+        // 退房房间选择
+        document.getElementById('checkout-room')?.addEventListener('change', function(e) {
+            const roomNumber = e.target.value;
+            if (!roomNumber) return;
+            
+            const orderResult = HotelApp.order.getByRoom(roomNumber);
+            if (!orderResult.success) {
+                HotelApp.ui.showToast(orderResult.message, 'error');
+                return;
+            }
+            
+            const order = orderResult.data;
+            const roomResult = HotelApp.room.getById(roomNumber);
+            const room = roomResult.data;
+            
+            // 计算账单
+            const billResult = HotelApp.settlement.calculateBill({
+                room: room,
+                checkInDate: order.checkInDate,
+                checkOutDate: order.checkOutDate,
+                extraCharges: [],
+                deposit: order.deposit,
+                isHalfDay: false
+            });
+            
+            // 渲染账单
+            const billDetail = document.getElementById('checkout-bill-detail');
+            billDetail.innerHTML = `
+                <div class="checkout-bill-row">
+                    <span class="checkout-bill-label">房间号</span>
+                    <span class="checkout-bill-value">${roomNumber}</span>
+                </div>
+                <div class="checkout-bill-row">
+                    <span class="checkout-bill-label">客人姓名</span>
+                    <span class="checkout-bill-value">${order.guestName}</span>
+                </div>
+                <div class="checkout-bill-row">
+                    <span class="checkout-bill-label">入住日期</span>
+                    <span class="checkout-bill-value">${order.checkInDate}</span>
+                </div>
+                <div class="checkout-bill-row">
+                    <span class="checkout-bill-label">退房日期</span>
+                    <span class="checkout-bill-value">${order.checkOutDate}</span>
+                </div>
+                <div class="checkout-bill-row">
+                    <span class="checkout-bill-label">房费总额</span>
+                    <span class="checkout-bill-value">¥${HotelApp.formatter.formatMoney(billResult.data.roomCharge)}</span>
+                </div>
+                <div class="checkout-bill-row">
+                    <span class="checkout-bill-label">押金抵扣</span>
+                    <span class="checkout-bill-value">¥${HotelApp.formatter.formatMoney(billResult.data.deposit)}</span>
+                </div>
+                <div class="checkout-bill-total">
+                    <span class="checkout-bill-total-label">应收总额</span>
+                    <span class="checkout-bill-total-value">¥${HotelApp.formatter.formatMoney(billResult.data.totalAmount)}</span>
+                </div>
+                <div class="form-actions mt-lg">
+                    <button class="btn btn-primary btn-block" onclick="submitCheckout('${roomNumber}', ${billResult.data.roomCharge}, ${billResult.data.totalAmount})">确认退房</button>
+                </div>
+            `;
+        });
+        
+        // 提交退房
+        function submitCheckout(roomNumber, roomCharge, totalAmount) {
+            const orderResult = HotelApp.order.getByRoom(roomNumber);
+            const order = orderResult.data;
+            
+            const params = {
+                roomNumber: roomNumber,
+                roomCharge: roomCharge,
+                dailyCharges: [],
+                extraCharges: [],
+                totalAmount: totalAmount,
+                paymentMethod: document.getElementById('checkout-payment').value,
+                remark: document.getElementById('checkout-remark').value
+            };
+            
+            const result = HotelApp.settlement.checkOut(params);
+            if (result.success) {
+                HotelApp.ui.showToast('退房成功', 'success');
+                document.getElementById('checkout-form').reset();
+                document.getElementById('checkout-bill-detail').innerHTML = '<div class="empty-state"><div class="empty-state-text">请选择房间查看账单</div></div>';
+                HotelApp.ui.initCheckoutPage();
+            } else {
+                HotelApp.ui.showToast(result.message, 'error');
+            }
+        }
+        
+        // 历史记录标签页切换
+        document.querySelectorAll('.tabs-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                
+                document.querySelectorAll('.tabs-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.tabs-pane').forEach(p => p.classList.remove('active'));
+                document.getElementById(`tab-${tabName}`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

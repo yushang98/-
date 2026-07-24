@@ -1,0 +1,295 @@
+/**
+ * badge.css - 状态标签、统计卡片、标签页样式
+ * 职责：定义状态标签、统计卡片、标签页等组件样式
+ */
+
+/* 状态标签 */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-medium);
+    line-height: 1;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+/* 默认标签 */
+.badge-default {
+    background-color: var(--disabled-bg);
+    color: var(--text-secondary);
+}
+
+/* 主要标签 */
+.badge-primary {
+    background-color: #E8F3FF;
+    color: var(--primary-color);
+}
+
+/* 成功标签 */
+.badge-success {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+}
+
+/* 错误标签 */
+.badge-error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+}
+
+/* 警告标签 */
+.badge-warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-color);
+}
+
+/* 房间状态标签 */
+.badge-idle {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+}
+
+.badge-occupied {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+}
+
+.badge-cleaning {
+    background-color: var(--warning-bg);
+    color: var(--warning-color);
+}
+
+.badge-maintenance {
+    background-color: var(--disabled-bg);
+    color: var(--disabled-color);
+}
+
+/* 圆点标签 */
+.badge-dot {
+    padding: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+}
+
+/* 数字标签 */
+.badge-count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: var(--font-size-xs);
+}
+
+/* 统计卡片 */
+.stat-card {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+    transition: all var(--transition-fast);
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.stat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.stat-card-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-xl);
+}
+
+.stat-card-icon-primary {
+    background-color: #E8F3FF;
+    color: var(--primary-color);
+}
+
+.stat-card-icon-success {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+}
+
+.stat-card-icon-error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+}
+
+.stat-card-icon-warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-color);
+}
+
+.stat-card-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    text-align: left;
+}
+
+.stat-card-value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-card-unit {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+.stat-card-trend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-sm);
+}
+
+.stat-card-trend-up {
+    color: var(--success-color);
+}
+
+.stat-card-trend-down {
+    color: var(--error-color);
+}
+
+/* 标签页 */
+.tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+}
+
+.tabs-nav {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.tabs-tab {
+    padding: var(--spacing-md) 0;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+    margin-bottom: -1px;
+}
+
+.tabs-tab:hover {
+    color: var(--text-primary);
+}
+
+.tabs-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tabs-tab-disabled {
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+}
+
+.tabs-tab-disabled:hover {
+    color: var(--text-tertiary);
+}
+
+.tabs-content {
+    flex: 1;
+}
+
+.tabs-pane {
+    display: none;
+}
+
+.tabs-pane.active {
+    display: block;
+}
+
+/* 卡片标签页 */
+.tabs-card .tabs-header {
+    background-color: var(--bg-hover);
+    border-radius: var(--radius-base) var(--radius-base) 0 0;
+    padding: 0 var(--spacing-md);
+}
+
+.tabs-card .tabs-tab {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: none;
+    border-radius: var(--radius-base) var(--radius-base) 0 0;
+}
+
+.tabs-card .tabs-tab.active {
+    background-color: var(--bg-card);
+}
+
+/* 胶囊标签页 */
+.tabs-pills .tabs-tab {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    border-bottom: none;
+}
+
+.tabs-pills .tabs-tab.active {
+    background-color: var(--primary-color);
+    color: var(--text-white);
+}
+
+/* 标签组 */
+.tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+/* 可关闭标签 */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    background-color: var(--bg-hover);
+    border-radius: var(--radius-sm);
+    gap: var(--spacing-xs);
+}
+
+.tag-close {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+}
+
+.tag-close:hover {
+    background-color: var(--error-color);
+    color: var(--text-white);
+}

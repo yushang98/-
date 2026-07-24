@@ -1,0 +1,120 @@
+/**
+ * settlement.css - 房费结算页面专属样式
+ * 职责：定义房费结算页面的样式
+ */
+
+/* 筛选区域 */
+.settlement-filter {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.settlement-filter-row {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+}
+
+/* 结算列表区域 */
+.settlement-list {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+}
+
+.settlement-list-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settlement-list-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* 账单详情 */
+.bill-detail {
+    padding: var(--spacing-xl);
+}
+
+.bill-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.bill-section-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+}
+
+.bill-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.bill-value {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    font-weight: var(--font-medium);
+}
+
+.bill-total {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-md) 0;
+    border-top: 2px solid var(--border-color);
+    margin-top: var(--spacing-md);
+}
+
+.bill-total-label {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.bill-total-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-bold);
+    color: var(--error-color);
+}
+
+/* 打印样式 */
+@media print {
+    .settlement-filter,
+    .settlement-list-header,
+    .pagination,
+    .btn {
+        display: none !important;
+    }
+    
+    .bill-detail {
+        padding: 0;
+    }
+    
+    .bill-section {
+        page-break-inside: avoid;
+    }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .settlement-filter-row {
+        flex-direction: column;
+    }
+}

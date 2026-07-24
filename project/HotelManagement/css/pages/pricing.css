@@ -1,0 +1,94 @@
+/**
+ * pricing.css - 价格管理页面专属样式
+ * 职责：定义价格管理页面的样式
+ */
+
+/* 价格配置区域 */
+.pricing-section {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+}
+
+.pricing-section-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.pricing-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.pricing-section-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    margin-top: var(--spacing-xs);
+}
+
+/* 基础房价配置 */
+.pricing-base-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+}
+
+/* 长住优惠规则列表 */
+.discount-rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.discount-rule-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-hover);
+    border-radius: var(--radius-base);
+}
+
+.discount-rule-fields {
+    display: flex;
+    gap: var(--spacing-md);
+    flex: 1;
+}
+
+/* 特殊日期价格列表 */
+.special-price-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.special-price-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-hover);
+    border-radius: var(--radius-base);
+}
+
+.special-price-fields {
+    display: flex;
+    gap: var(--spacing-md);
+    flex: 1;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .pricing-base-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .discount-rule-fields,
+    .special-price-fields {
+        flex-direction: column;
+    }
+}

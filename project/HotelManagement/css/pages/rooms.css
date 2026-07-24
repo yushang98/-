@@ -1,0 +1,72 @@
+/**
+ * rooms.css - 房间管理页面专属样式
+ * 职责：定义房间管理页面的样式
+ */
+
+/* 筛选区域 */
+.rooms-filter {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.rooms-filter-row {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+}
+
+.rooms-filter-item {
+    flex: 1;
+}
+
+.rooms-filter-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+/* 房间列表区域 */
+.rooms-list {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+}
+
+.rooms-list-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rooms-list-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.rooms-list-count {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+}
+
+/* 房间状态操作 */
+.room-status-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .rooms-filter-row {
+        flex-direction: column;
+    }
+    
+    .rooms-filter-item {
+        width: 100%;
+    }
+}

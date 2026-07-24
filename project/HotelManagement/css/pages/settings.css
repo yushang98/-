@@ -1,0 +1,99 @@
+/**
+ * settings.css - 数据管理页面专属样式
+ * 职责：定义数据管理页面的样式
+ */
+
+/* 数据管理区域 */
+.settings-section {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-base);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+}
+
+.settings-section-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.settings-section-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    margin-top: var(--spacing-xs);
+}
+
+/* 数据操作区域 */
+.settings-action {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.settings-action-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-hover);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-2xl);
+}
+
+.settings-action-icon-export {
+    color: var(--primary-color);
+}
+
+.settings-action-icon-import {
+    color: var(--success-color);
+}
+
+.settings-action-icon-clear {
+    color: var(--error-color);
+}
+
+.settings-action-content {
+    flex: 1;
+}
+
+.settings-action-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.settings-action-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+}
+
+/* 文件上传 */
+.settings-file-upload {
+    display: none;
+}
+
+.settings-file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.settings-file-label:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--text-tertiary);
+}

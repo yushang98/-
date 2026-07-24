@@ -1,0 +1,173 @@
+/**
+ * reset.css - 全局样式重置、CSS变量定义
+ * 职责：清除浏览器默认样式，定义全局CSS变量（颜色、字体、间距、圆角、阴影等）
+ */
+
+/* CSS变量定义 */
+:root {
+    /* 主色调 */
+    --primary-color: #165DFF;
+    --primary-hover: #4080FF;
+    --primary-active: #0E42D2;
+    
+    /* 状态色 */
+    --success-color: #00B42A;
+    --success-bg: #E8FFEA;
+    --error-color: #F53F3F;
+    --error-bg: #FFECE8;
+    --warning-color: #FF7D00;
+    --warning-bg: #FFF7E8;
+    --disabled-color: #86909C;
+    --disabled-bg: #F2F3F5;
+    
+    /* 文字颜色 */
+    --text-primary: #1D2129;
+    --text-secondary: #4E5969;
+    --text-tertiary: #86909C;
+    --text-white: #FFFFFF;
+    
+    /* 背景色 */
+    --bg-page: #F5F7FA;
+    --bg-card: #FFFFFF;
+    --bg-hover: #F2F3F5;
+    
+    /* 边框色 */
+    --border-color: #E5E6EB;
+    --border-light: #F2F3F5;
+    
+    /* 字体 */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+    --font-size-2xl: 24px;
+    --font-size-3xl: 32px;
+    
+    /* 行高 */
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    
+    /* 间距 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 20px;
+    --spacing-2xl: 24px;
+    --spacing-3xl: 32px;
+    
+    /* 圆角 */
+    --radius-sm: 4px;
+    --radius-base: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+    
+    /* 阴影 */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-base: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 16px 0 rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 8px 24px 0 rgba(0, 0, 0, 0.16);
+    
+    /* 过渡 */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* 层级 */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* 全局重置 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-page);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 重置列表样式 */
+ul,
+ol {
+    list-style: none;
+}
+
+/* 重置链接样式 */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 重置按钮样式 */
+button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+/* 重置输入框样式 */
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+/* 重置表格样式 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 重置图片样式 */
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+/* 隐藏元素 */
+[hidden] {
+    display: none !important;
+}
+
+/* 禁用选择 */
+[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
