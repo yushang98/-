@@ -664,7 +664,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">取消</button>
-                    <button class="btn btn-primary" onclick="submitEditRoom('${roomNumber}')">确定</button>
+                    <button class="btn btn-primary" onclick="HotelApp.ui.submitEditRoom('${roomNumber}')">确定</button>
                 </div>
             </div>
         `;
@@ -773,7 +773,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">取消</button>
-                    <button class="btn btn-primary" onclick="submitEditGuest('${guestId}')">确定</button>
+                    <button class="btn btn-primary" onclick="HotelApp.ui.submitEditGuest('${guestId}')">确定</button>
                 </div>
             </div>
         `;
@@ -968,8 +968,10 @@
         renderGuestsTable: renderGuestsTable,
         renderSettlementsTable: renderSettlementsTable,
         editRoom: editRoom,
+        submitEditRoom: submitEditRoom,
         deleteRoom: deleteRoom,
         editGuest: editGuest,
+        submitEditGuest: submitEditGuest,
         deleteGuest: deleteGuest,
         viewOrder: viewOrder,
         viewSettlement: viewSettlement
