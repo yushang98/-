@@ -595,6 +595,360 @@
         // 数据管理页面不需要特殊初始化
     }
     
+    /**
+     * 编辑房间
+     */
+    function editRoom(roomNumber) {
+        const result = HotelApp.room.getById(roomNumber);
+        if (!result.success) {
+            showToast(result.message, 'error');
+            return;
+        }
+        
+        const room = result.data;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop show';
+        modal.innerHTML = `
+            <div class="modal modal-md show">
+                <div class="modal-header">
+                    <h3 class="modal-title">编辑房间</h3>
+                    <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-room-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label form-label-required">房间号</label>
+                                <input type="text" id="edit-room-number" class="form-input" value="${room.roomNumber}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label form-label-required">楼层</label>
+                                <input type="number" id="edit-room-floor" class="form-input" value="${room.floor}" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label form-label-required">房型</label>
+                                <select id="edit-room-type" class="form-select" required>
+                                    <option value="single" ${room.roomType === 'single' ? 'selected' : ''}>单人间</option>
+                                    <option value="double" ${room.roomType === 'double' ? 'selected' : ''}>双人间</option>
+                                    <option value="deluxe" ${room.roomType === 'deluxe' ? 'selected' : ''}>豪华间</option>
+                                    <option value="suite" ${room.roomType === 'suite' ? 'selected' : ''}>套房</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label form-label-required">床位数</label>
+                                <input type="number" id="edit-room-beds" class="form-input" value="${room.beds}" min="1" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-required">基础房价</label>
+                            <input type="number" id="edit-room-price" class="form-input" value="${room.basePrice}" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-required">房间状态</label>
+                            <select id="edit-room-status" class="form-select" required>
+                                <option value="idle" ${room.status === 'idle' ? 'selected' : ''}>空闲</option>
+                                <option value="occupied" ${room.status === 'occupied' ? 'selected' : ''}>已入住</option>
+                                <option value="cleaning" ${room.status === 'cleaning' ? 'selected' : ''}>清洁中</option>
+                                <option value="maintenance" ${room.status === 'maintenance' ? 'selected' : ''}>维修中</option>
+                            </select>
+                            <div style="font-size: 12px; color: #86909C; margin-top: 4px;">注意：状态变更需符合业务规则</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">备注</label>
+                            <textarea id="edit-room-remark" class="form-textarea" rows="2">${room.remark || ''}</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">取消</button>
+                    <button class="btn btn-primary" onclick="submitEditRoom('${roomNumber}')">确定</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    /**
+     * 提交编辑房间
+     */
+    function submitEditRoom(originalRoomNumber) {
+        const room = {
+            roomNumber: document.getElementById('edit-room-number').value,
+            floor: document.getElementById('edit-room-floor').value,
+            roomType: document.getElementById('edit-room-type').value,
+            beds: document.getElementById('edit-room-beds').value,
+            basePrice: document.getElementById('edit-room-price').value,
+            remark: document.getElementById('edit-room-remark').value
+        };
+        
+        const newStatus = document.getElementById('edit-room-status').value;
+        
+        // 先更新房间基本信息
+        const result = HotelApp.room.update(originalRoomNumber, room);
+        if (!result.success) {
+            showToast(result.message, 'error');
+            return;
+        }
+        
+        // 获取当前房间信息
+        const currentRoom = HotelApp.room.getById(room.roomNumber);
+        if (!currentRoom.success) {
+            showToast(currentRoom.message, 'error');
+            return;
+        }
+        
+        // 如果状态改变了，更新状态
+        if (currentRoom.data.status !== newStatus) {
+            const statusResult = HotelApp.room.updateStatus(room.roomNumber, newStatus);
+            if (!statusResult.success) {
+                showToast('基本信息已更新，但状态变更失败：' + statusResult.message, 'warning');
+                document.querySelector('.modal-backdrop').remove();
+                initRoomsPage();
+                return;
+            }
+        }
+        
+        showToast('更新成功', 'success');
+        document.querySelector('.modal-backdrop').remove();
+        initRoomsPage();
+    }
+    
+    /**
+     * 删除房间
+     */
+    function deleteRoom(roomNumber) {
+        showConfirm(`确定要删除房间 ${roomNumber} 吗？`, function() {
+            const result = HotelApp.room.delete(roomNumber);
+            if (result.success) {
+                showToast('删除成功', 'success');
+                initRoomsPage();
+            } else {
+                showToast(result.message, 'error');
+            }
+        });
+    }
+    
+    /**
+     * 编辑客人
+     */
+    function editGuest(guestId) {
+        const result = HotelApp.guest.getById(guestId);
+        if (!result.success) {
+            showToast(result.message, 'error');
+            return;
+        }
+        
+        const guest = result.data;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop show';
+        modal.innerHTML = `
+            <div class="modal modal-md show">
+                <div class="modal-header">
+                    <h3 class="modal-title">编辑客人</h3>
+                    <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-guest-form">
+                        <div class="form-group">
+                            <label class="form-label form-label-required">姓名</label>
+                            <input type="text" id="edit-guest-name" class="form-input" value="${guest.name}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">身份证号</label>
+                            <input type="text" id="edit-guest-idcard" class="form-input" value="${guest.idCard || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">联系电话</label>
+                            <input type="text" id="edit-guest-phone" class="form-input" value="${guest.phone || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">备注</label>
+                            <textarea id="edit-guest-remark" class="form-textarea" rows="2">${guest.remark || ''}</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">取消</button>
+                    <button class="btn btn-primary" onclick="submitEditGuest('${guestId}')">确定</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    /**
+     * 提交编辑客人
+     */
+    function submitEditGuest(guestId) {
+        const guest = {
+            name: document.getElementById('edit-guest-name').value,
+            idCard: document.getElementById('edit-guest-idcard').value,
+            phone: document.getElementById('edit-guest-phone').value,
+            remark: document.getElementById('edit-guest-remark').value
+        };
+        
+        const result = HotelApp.guest.update(guestId, guest);
+        if (result.success) {
+            showToast('更新成功', 'success');
+            document.querySelector('.modal-backdrop').remove();
+            initGuestsPage();
+        } else {
+            showToast(result.message, 'error');
+        }
+    }
+    
+    /**
+     * 删除客人
+     */
+    function deleteGuest(guestId) {
+        showConfirm('确定要删除该客人吗？', function() {
+            const result = HotelApp.guest.delete(guestId);
+            if (result.success) {
+                showToast('删除成功', 'success');
+                initGuestsPage();
+            } else {
+                showToast(result.message, 'error');
+            }
+        });
+    }
+    
+    /**
+     * 查看订单详情
+     */
+    function viewOrder(orderId) {
+        const result = HotelApp.order.getById(orderId);
+        if (!result.success) {
+            showToast(result.message, 'error');
+            return;
+        }
+        
+        const order = result.data;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop show';
+        modal.innerHTML = `
+            <div class="modal modal-md show">
+                <div class="modal-header">
+                    <h3 class="modal-title">订单详情</h3>
+                    <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">订单编号</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">${order.orderId}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">房间号</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">${order.roomNumber}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">客人姓名</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">${order.guestName}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">入住日期</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">${order.checkInDate}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">退房日期</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">${order.checkOutDate}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">押金</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">¥${HotelApp.formatter.formatMoney(order.deposit)}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">备注</label>
+                        <div class="form-input" style="background: #f5f7fa; cursor: default;">${order.remark || '无'}</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    /**
+     * 查看结算详情
+     */
+    function viewSettlement(settlementId) {
+        const result = HotelApp.settlement.getById(settlementId);
+        if (!result.success) {
+            showToast(result.message, 'error');
+            return;
+        }
+        
+        const settlement = result.data;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop show';
+        modal.innerHTML = `
+            <div class="modal modal-lg show">
+                <div class="modal-header">
+                    <h3 class="modal-title">结算详情</h3>
+                    <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">结算编号</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">${settlement.settlementId}</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">房间号</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">${settlement.roomNumber}</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">客人姓名</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">${settlement.guestName}</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">支付方式</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">${HotelApp.formatter.formatPaymentMethod(settlement.paymentMethod)}</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">入住日期</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">${settlement.checkInDate}</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">退房日期</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">${settlement.checkOutDate}</div>
+                        </div>
+                    </div>
+                    <h4 style="margin: 20px 0 10px; font-size: 16px; color: #1D2129;">费用明细</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">房费总额</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">¥${HotelApp.formatter.formatMoney(settlement.roomCharge)}</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">押金抵扣</label>
+                            <div class="form-input" style="background: #f5f7fa; cursor: default;">¥${HotelApp.formatter.formatMoney(settlement.deposit)}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">应收总额</label>
+                        <div class="form-input" style="background: #fff7e8; cursor: default; font-weight: bold; color: #F53F3F;">¥${HotelApp.formatter.formatMoney(settlement.totalAmount)}</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="this.closest('.modal-backdrop').remove()">关闭</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
     // 挂载到HotelApp命名空间
     HotelApp.ui = {
         init: init,
@@ -612,7 +966,13 @@
         initSettingsPage: initSettingsPage,
         renderRoomsTable: renderRoomsTable,
         renderGuestsTable: renderGuestsTable,
-        renderSettlementsTable: renderSettlementsTable
+        renderSettlementsTable: renderSettlementsTable,
+        editRoom: editRoom,
+        deleteRoom: deleteRoom,
+        editGuest: editGuest,
+        deleteGuest: deleteGuest,
+        viewOrder: viewOrder,
+        viewSettlement: viewSettlement
     };
     
     // 页面加载完成后初始化
